@@ -138,6 +138,10 @@ public class Robot extends TimedRobot {
       shooterSubsystem.stopshooter();
     }
     
+    if(shellController.getPOV() == 90){
+
+    }
+
     driveSubsystem.crawl(leftstickval, rightstickval);
   }
 
