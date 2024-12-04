@@ -16,4 +16,14 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+  
+  public static class CANids {
+    //Dummy Values Ahead! Wear Protection!
+      public static final int FRONT_LEFT_CANCODER = 71;
+      public static final int REAR_LEFT_CANCODER = 68;
+      public static final int FRONT_RIGHT_CANCODER = 45;
+      public static final int REAR_RIGHT_CANCODER = 32;
+    
+  }
+
 }

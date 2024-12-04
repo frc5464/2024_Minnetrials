@@ -4,9 +4,17 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.subsystems.RotationSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,6 +27,14 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private DriveSubsystem driveSubsystem;
+  
+  public ShooterSubsystem shooterSubsystem;
+
+  public RotationSubsystem rotationSubsystem;
+
+  public HopperSubsystem hopperSubsystem;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -28,7 +44,22 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    driveSubsystem = new DriveSubsystem();
+    shooterSubsystem = new ShooterSubsystem();
+    rotationSubsystem = new RotationSubsystem();
+    hopperSubsystem = new HopperSubsystem();
   }
+
+
+
+  // adds two numbers and returns the result of them added
+  public int getTheSum(int a, int b){
+    int c = a + b;
+    return c;
+  }
+
+  Joystick motionController = new Joystick(0);
+  Joystick shellController = new Joystick(1);
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
@@ -66,7 +97,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+
+  }
 
   @Override
   public void teleopInit() {
@@ -81,7 +114,32 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+    double leftstickval = motionController.getRawAxis(1);
+    double rightstickval = motionController.getRawAxis(5);
+
+    
+
+    
+    if(shellController.getRawButton(2)){
+      hopperSubsystem.shootHopper();
+    } else if(shellController.getRawButton(6)){
+      hopperSubsystem.reverseHopper();
+    } else {
+      hopperSubsystem.stopHopper();
+    }
+
+    if(shellController.getRawButton(5)){
+      shooterSubsystem.shootshooter();
+    } else if(shellController.getRawButton(6)){
+      shooterSubsystem.intakeshooter();
+    } else {
+      shooterSubsystem.stopshooter();
+    }
+    
+    driveSubsystem.crawl(leftstickval, rightstickval);
+  }
 
   @Override
   public void testInit() {
@@ -95,9 +153,21 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when the robot is first started up. */
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+    int shoot;
+    
+  }
 
   /** This function is called periodically whilst in simulation. */
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+
+  }
+
+  public boolean MoveArm(){
+    return true;
+  }
+  public void botton(){
+  
+  }
 }
