@@ -4,11 +4,10 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.DriveSubsystem;
@@ -35,6 +34,9 @@ public class Robot extends TimedRobot {
 
   public HopperSubsystem hopperSubsystem;
 
+  public int autoSteps = 0;
+
+   Timer autoFirstTimer = new Timer();
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -88,6 +90,13 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+      SmartDashboard.putNumber("autoTimer", autoFirstTimer.get());
+
+   
+      autoFirstTimer.reset();
+      autoFirstTimer.start();
+
+      autoSteps = 1;
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -98,7 +107,16 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-
+    if(autoSteps == 1) {
+      driveSubsystem.crawl(-0.3, -0.3);
+      if (autoFirstTimer.get() > 3) {
+        autoSteps = 2;
+      }
+     }
+     if (autoSteps == 2) {
+      driveSubsystem.crawl(0, 0);
+      
+     }
   }
 
   @Override
@@ -119,8 +137,8 @@ public class Robot extends TimedRobot {
     double leftstickval = motionController.getRawAxis(1);
     double rightstickval = motionController.getRawAxis(5);
 
-    
-
+    double leftstickvalue = shellController.getRawAxis(1);
+    //double leftstickvalue1 = shellController.getRawAxis(5)
     
     if(shellController.getRawButton(2)){
       hopperSubsystem.shootHopper();
@@ -138,9 +156,16 @@ public class Robot extends TimedRobot {
       shooterSubsystem.stopshooter();
     }
     
-    if(shellController.getPOV() == 90){
-
+    // DIGITAL ARM CONTROL
+    if(shellController.getPOV() == 180){
+      rotationSubsystem.rotArmUp();
+    } else if(shellController.getPOV() == 0){
+      rotationSubsystem.rotArmDowners();
+    } else {
+      rotationSubsystem.stopArm();
     }
+
+    // rotationSubsystem.moveArm(leftstickvalue);
 
     driveSubsystem.crawl(leftstickval, rightstickval);
   }

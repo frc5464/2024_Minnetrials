@@ -12,13 +12,22 @@ public class RotationSubsystem {
     CANSparkMax rightrot = new CANSparkMax(7,MotorType.kBrushless);
 
     public void rotArmUp(){
-        leftrot.set(0.5);
-        rightrot.set(0.5);
+        leftrot.set(0.3);
+        rightrot.set(0.3);
     }
 
     public void rotArmDowners(){
-        leftrot.set(-0.5);
-        rightrot.set(-0.5);
+        leftrot.set(-0.3);
+        rightrot.set(-0.3);
+    }
+
+    public void moveArm(double speed){
+        if(Math.abs(speed) < 0.1){
+            speed = 0;
+        }
+        double maxSpeed = 0.304;
+        leftrot.set(speed * maxSpeed);
+        rightrot.set(speed * maxSpeed);        
     }
 
     public void stopArm(){
@@ -26,4 +35,10 @@ public class RotationSubsystem {
         rightrot.set(0);
     }
 
+    // public void rotArmBoth(double Axis1, double Axis5){
+    //     leftrot.set(Axis1);
+    //     rightrot.set(Axis1);
+    //     leftrot.set(Axis5);
+    //     rightrot.set(Axis5);
+    // }
 }
