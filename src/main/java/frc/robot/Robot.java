@@ -115,10 +115,16 @@ public class Robot extends TimedRobot {
      }
      if (autoSteps == 2) {
       driveSubsystem.crawl(0, 0);
-      
+      if (autoFirstTimer.get() > 2) {
+        autoSteps = 3;
      }
-  }
-
+    }
+    if (autoSteps == 3) {
+      driveSubsytem.crawl(0.3, -0.3);
+      if (autoFirstTimer.get() > 2) {
+        autoSteps = 4;
+      }
+    }
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
