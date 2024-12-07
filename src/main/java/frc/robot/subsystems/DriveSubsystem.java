@@ -3,8 +3,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
-
 public class DriveSubsystem {
     
     CANSparkMax frontLeft = new CANSparkMax(2, MotorType.kBrushless);
@@ -13,9 +11,10 @@ public class DriveSubsystem {
     CANSparkMax backRight = new CANSparkMax(5, MotorType.kBrushless);
 
     public void crawl(double Axi2, double Axi6){
-        frontLeft.set(Axi2);
-        backLeft.set(Axi2);
-        frontRight.set(Axi6);
-        backRight.set(Axi6);
+        double maxSpeed = 0.7;
+        frontLeft.set(Axi2*maxSpeed);
+        backLeft.set(Axi2*maxSpeed);
+        frontRight.set(Axi6*maxSpeed);
+        backRight.set(Axi6*maxSpeed);
     }
 }
