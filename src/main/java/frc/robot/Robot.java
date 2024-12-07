@@ -120,31 +120,31 @@ public class Robot extends TimedRobot {
      }
     if (autoSteps == 2) {
       driveSubsystem.crawl(0, 0);
-      if (autoFirstTimer.get() > 4) {
-        autoSteps = 3;
+      //if (autoFirstTimer.get() > 4) {
+        //autoSteps = 3;
       }
     }
-    if (autoSteps == 3) {
-      rotationSubsystem.rotArmUp();
-      shooterSubsystem.shootshooter();
-      if(rotationSubsystem.encoderPos > 27) {
-        autoSteps = 4;
-      }
-    }
-   if(autoSteps == 4) {
-    shooterSubsystem.shootshooter();
-    hopperSubsystem.shootHopper();
-    if(autoFirstTimer.get() > 10) {
-      autoSteps = 5;
-    }
-  }
-  if(autoSteps == 5) {
-    shooterSubsystem.stopshooter();
-    if(autoFirstTimer.get() > 6) {
-      autoSteps = 6;
-    }
-  }
-}
+  //   if (autoSteps == 3) {
+  //     rotationSubsystem.rotArmUp();
+  //     shooterSubsystem.shootshooter();
+  //     if(rotationSubsystem.encoderPos > 27) {
+  //       autoSteps = 4;
+  //     }
+  //   }
+  //  if(autoSteps == 4) {
+  //   shooterSubsystem.shootshooter();
+  //   hopperSubsystem.shootHopper();
+  //   if(autoFirstTimer.get() > 10) {
+  //     autoSteps = 5;
+  //   }
+  // }
+  // if(autoSteps == 5) {
+  //   shooterSubsystem.stopshooter();
+  //   if(autoFirstTimer.get() > 6) {
+  //     autoSteps = 6;
+  //   }
+  // }
+
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -154,6 +154,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    autoFirstTimer.stop();
   }
 
   /** This function is called periodically during operator control. */
@@ -163,7 +165,7 @@ public class Robot extends TimedRobot {
     double leftstickval = motionController.getRawAxis(1);
     double rightstickval = motionController.getRawAxis(5);
 
-    double leftstickvalue = shellController.getRawAxis(1);
+    //double leftstickvalue = shellController.getRawAxis(1);
     //double leftstickvalue1 = shellController.getRawAxis(5)
     
     if(shellController.getRawButton(2)){
