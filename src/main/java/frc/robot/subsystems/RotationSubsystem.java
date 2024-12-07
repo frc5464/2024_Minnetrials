@@ -1,15 +1,27 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RotationSubsystem {
     
+    public void init(){
+        leftRelativeEncoder = leftrot.getEncoder();
+    }
+
     //Talon rotation = new Talon(0);
     CANSparkMax leftrot = new CANSparkMax(6, MotorType.kBrushless);
     CANSparkMax rightrot = new CANSparkMax(7,MotorType.kBrushless);
+
+    RelativeEncoder leftRelativeEncoder;
+    public double encoderPos;
+    public void periodic(){
+        encoderPos = leftRelativeEncoder.getPosition();
+        SmartDashboard.putNumber("Encoder", encoderPos);
+    }
 
     public void rotArmUp(){
         leftrot.set(0.3);

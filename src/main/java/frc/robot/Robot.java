@@ -50,6 +50,8 @@ public class Robot extends TimedRobot {
     shooterSubsystem = new ShooterSubsystem();
     rotationSubsystem = new RotationSubsystem();
     hopperSubsystem = new HopperSubsystem();
+
+    rotationSubsystem.init();
   }
 
 
@@ -77,6 +79,9 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+      rotationSubsystem.periodic();
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -115,17 +120,31 @@ public class Robot extends TimedRobot {
      }
     if (autoSteps == 2) {
       driveSubsystem.crawl(0, 0);
-      if (autoFirstTimer.get() > 2) {
+      if (autoFirstTimer.get() > 4) {
         autoSteps = 3;
       }
     }
     if (autoSteps == 3) {
-      driveSubsystem.crawl(0.3, -0.3);
-      if(autoFirstTimer.get() > 2) {
+      rotationSubsystem.rotArmUp();
+      shooterSubsystem.shootshooter();
+      if(rotationSubsystem.encoderPos > 27) {
         autoSteps = 4;
       }
     }
+   if(autoSteps == 4) {
+    shooterSubsystem.shootshooter();
+    hopperSubsystem.shootHopper();
+    if(autoFirstTimer.get() > 10) {
+      autoSteps = 5;
+    }
   }
+  if(autoSteps == 5) {
+    shooterSubsystem.stopshooter();
+    if(autoFirstTimer.get() > 6) {
+      autoSteps = 6;
+    }
+  }
+}
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
